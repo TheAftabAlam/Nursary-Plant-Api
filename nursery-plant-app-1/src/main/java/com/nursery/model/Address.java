@@ -5,13 +5,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
+@Data
+@EqualsAndHashCode
 public class Address {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer addressID;
+	
 	
 	@NotEmpty(message = "House No. not be emplty")
 	private String houseNo;
@@ -25,7 +32,7 @@ public class Address {
 	@NotEmpty(message = "Colony not be null")
 	private String state;
 	
-	@NotEmpty(message = "Colony not be null")
+	@NotNull(message = "Colony not be null")
 	private Integer pinCode;
 	
 	

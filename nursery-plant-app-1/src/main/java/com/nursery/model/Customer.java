@@ -2,6 +2,7 @@ package com.nursery.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,7 +42,7 @@ public class Customer {
 	private String password;
 	
 	@NotEmpty
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Address> address;
 	
 	
