@@ -28,7 +28,7 @@ public class CustomerLoginServiceimpl implements CustomerLoginService{
 	public String Customerlogin(CustomerLogin al) throws CustomerException {
 		Customer customer= cd.findById(al.getUserId()).orElseThrow(()->new CustomerException("Customer not found"));
 		if(!customer.getCustomerName().equals(al.getCustomerName())) {
-			throw new CustomerException("Incorrect username");
+			 throw new CustomerException("Incorrect username");
 		}
 		if(!customer.getPassword().equals(al.getPassword())) {
 			throw new CustomerException("Incorrect Password");			

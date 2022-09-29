@@ -7,5 +7,5 @@ import com.nursery.login.model.CustomerLogin;
 
 @Repository
 public interface CustomerLoginDao extends JpaRepository<CustomerLogin, Integer>{
-
+ 
 }

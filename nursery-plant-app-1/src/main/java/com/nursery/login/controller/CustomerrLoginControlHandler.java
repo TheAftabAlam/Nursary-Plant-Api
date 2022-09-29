@@ -19,7 +19,7 @@ public class CustomerrLoginControlHandler {
 	@PostMapping("/user/login")
 	public String userLoginHandler(@RequestBody CustomerLogin al) throws CustomerException {
 		return userLoginservice.Customerlogin(al);
-		
+		 
 	}
 	@DeleteMapping("/user/logout")
 	public String userLogoutHandler(@RequestParam String key )throws  CustomerException {

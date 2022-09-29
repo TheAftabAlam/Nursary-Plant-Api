@@ -14,5 +14,6 @@ public class CustomerLogin {
 	@Id
 	private Integer userId;
 	private String customerName;
+	
 	private String password;
 }

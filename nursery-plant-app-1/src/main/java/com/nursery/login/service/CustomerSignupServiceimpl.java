@@ -26,7 +26,7 @@ public class CustomerSignupServiceimpl implements CustomerSignupService{
 		//332311
 		return Customer1;
 	
-	}
+	} 
 
 	@Override
 	public Customer UpdateCustomer(Customer customer,String key) throws CustomerException{

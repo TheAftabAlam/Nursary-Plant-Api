@@ -35,5 +35,6 @@ public class Address {
 	@NotNull(message = "Colony not be null")
 	private Integer pinCode;
 	
+	  
 	
 }
