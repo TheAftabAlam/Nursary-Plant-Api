@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -43,7 +44,7 @@ public class Customer {
 	
 	@NotEmpty
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Address> address;
+	private @Valid Set<Address> address;
 	
 	
 	

@@ -57,4 +57,6 @@ public class Planter {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "seedId")
 	private List<Seed> seeds = new ArrayList<>();
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "bookingOrderId")
+	private List<Order> orders=new ArrayList<>();
 }
