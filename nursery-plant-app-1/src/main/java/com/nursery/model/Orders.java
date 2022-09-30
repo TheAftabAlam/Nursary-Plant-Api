@@ -12,6 +12,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,11 +22,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class Orders {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer bookingOrderId;
+	
 	
 	
 	private LocalDate orderDate;
@@ -42,5 +45,7 @@ public class Order {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Planter planter;
 	
-	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Customer customer;
 }

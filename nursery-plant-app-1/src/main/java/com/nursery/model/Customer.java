@@ -1,5 +1,8 @@
 package com.nursery.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -42,10 +44,12 @@ public class Customer {
 	@Size(min = 3, max = 10, message = "Password must be min size of 3 characters and max of 10 characters")
 	private String password;
 	
-	@NotEmpty
-	@OneToMany(cascade = CascadeType.ALL)
-	private @Valid Set<Address> address;
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "addressID")
+	private Set<Address> address=new HashSet<>();
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "bookingOrderId")
+	private List<Orders> orderss=new ArrayList<>();
 	
 	
 	

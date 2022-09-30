@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -60,5 +62,6 @@ public class Seed {
 	private Integer seedsPerPacket;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Planter planter;
 }
