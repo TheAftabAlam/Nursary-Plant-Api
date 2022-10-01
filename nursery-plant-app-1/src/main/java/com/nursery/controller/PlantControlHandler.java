@@ -47,7 +47,7 @@ public class PlantControlHandler {
 	}
 	
 	
-	@GetMapping("/viewplant/{id}")
+	@GetMapping("/viewplantById/{id}")
 	public ResponseEntity<Plant> GetPlantById(@PathVariable("id") Integer id) throws PlantException{
 		Plant plant1 =plantservice.viewPlant(id);
 		
@@ -55,22 +55,22 @@ public class PlantControlHandler {
 	}
 	
 
-	@GetMapping("/viewplant/{commonName}")
+	@GetMapping("/viewplantByName/{commonName}")
 	public ResponseEntity<List<Plant>> GetPlantcommonName(@PathVariable("commonName") String plantcommonName) throws PlantException{
 		List<Plant> plant1= plantservice.viewPlant(plantcommonName);
 		return new ResponseEntity<List<Plant>>(plant1,HttpStatus.OK);
 	}
 		
-	@GetMapping("/viewplant")
+	@GetMapping("/viewplants")
 	public ResponseEntity<List<Plant>> ShowPlants() throws PlantException{
 	List<Plant> plants=	plantservice.viewAllPlants();
 		return new ResponseEntity<List<Plant>>(plants,HttpStatus.OK);
 	}
 	
 	
-	@GetMapping("/viewplanters/{type}")
+	@GetMapping("/viewplantsByType/{type}")
 	public ResponseEntity<List<Plant>> ViewPlantsByType(@PathVariable("type") String type) throws PlantException{
-		List<Plant> plant=	plantservice.viewPlant(type);
+		List<Plant> plant=	plantservice.viewAllPlants(type);
 		return new ResponseEntity<List<Plant>>(plant,HttpStatus.OK);
 	}
 }

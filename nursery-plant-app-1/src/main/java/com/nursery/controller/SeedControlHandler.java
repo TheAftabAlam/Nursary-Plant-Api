@@ -56,20 +56,20 @@ public class SeedControlHandler {
 	}
 	
 
-	@GetMapping("/viewseed/{commonName}")
+	@GetMapping("/viewseedsByName/{commonName}")
 	public ResponseEntity<List<Seed>> GetPlantcommonName(@PathVariable("commonName") String plantcommonName) throws SeedException{
 		List<Seed> seed1= Seedservice.viewSeed(plantcommonName);
 		return new ResponseEntity<List<Seed>>(seed1,HttpStatus.OK);
 	}
 		
-	@GetMapping("/viewseed")
+	@GetMapping("/viewAllseeds")
 	public ResponseEntity<List<Seed>> ShowSeed() throws SeedException{
 	List<Seed> seeds= Seedservice.viewAllSeeds();
 		return new ResponseEntity<List<Seed>>(seeds,HttpStatus.OK);
 	}
 	
 	
-	@GetMapping("/viewseeds/{type}")
+	@GetMapping("/viewseedsByType/{type}")
 	public ResponseEntity<List<Seed>> ViewSeedsByType(@PathVariable("type") String type) throws SeedException{
 		List<Seed> seed=	Seedservice.viewSeed(type);
 		return new ResponseEntity<List<Seed>>(seed,HttpStatus.OK);

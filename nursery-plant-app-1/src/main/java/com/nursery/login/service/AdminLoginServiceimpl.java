@@ -55,7 +55,7 @@ public class AdminLoginServiceimpl implements AdminLoginService{
 		}
 	 Optional<CurrentUserSession> cu=cusd.findByuserId(alogin.getUserId());
 		if(cu.isPresent()) {	
-			return "User Alredy loged in";
+			return "User Alredy logged in";
 		}
 	 
 	 	RandomNumservice ran=new RandomNumservice();

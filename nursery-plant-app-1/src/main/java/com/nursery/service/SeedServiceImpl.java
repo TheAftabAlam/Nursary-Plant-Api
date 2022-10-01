@@ -19,25 +19,27 @@ public class SeedServiceImpl implements SeedService{
 	
 	@Override
 	public Seed addSeed(Seed seed) throws SeedException {
-		Seed obj = seedDao.findById(seed.getSeedId()).orElseThrow(() -> new SeedException("Seed Already exist"));
-        
-		seedDao.save(seed);
-	        return seed;
+		Optional<Seed> opt= seedDao.findById(seed.getSeedId());
+		
+		if(opt.isPresent()) {
+			throw new SeedException("Seed Already exist");
+		
+			//here save method will perform as saveOrUpdate based on Id field
+		}
+		else
+			seedDao.save(seed);
+			
+		
+		return seed;
 	}
 
 	@Override
 	public Seed updateSeed(Seed seed) throws SeedException {
-		Optional<Seed> opt= seedDao.findById(seed.getSeedId());
 		
-		if(opt.isPresent()) {
-			
-			seedDao.save(seed);
-			//here save method will perform as saveOrUpdate based on Id field
-		}
-		else
-			throw new SeedException("Seed not found");
-		
-		return seed;
+		Seed obj = seedDao.findById(seed.getSeedId()).orElseThrow(() -> new SeedException("Seed not found"));
+        
+		seedDao.save(seed);
+	        return seed;
 	}
 
 	@Override

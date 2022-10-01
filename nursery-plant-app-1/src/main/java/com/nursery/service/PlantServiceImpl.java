@@ -18,25 +18,26 @@ public class PlantServiceImpl implements PlantService{
 
 	@Override
 	public Plant addPlant(Plant plant) throws PlantException {
-		 Plant obj = plantDao.findById(plant.getPlantId()).orElseThrow(() -> new PlantException("Plant Already exist"));
-	        
-		 plantDao.save(plant);
-	        return plant;
+		Optional<Plant> opt= plantDao.findById(plant.getPlantId());
+		
+		if(opt.isPresent()) {
+			throw new PlantException("Plant Already existS");
+			
+			//here save method will perform as saveOrUpdate based on Id field
+		}
+		else
+			plantDao.save(plant);
+		
+		return plant;
+		
 	}
 
 	@Override
 	public Plant updatePlant(Plant plant)throws PlantException {
-		Optional<Plant> opt= plantDao.findById(plant.getPlantId());
-		
-		if(opt.isPresent()) {
-			
-			plantDao.save(plant);
-			//here save method will perform as saveOrUpdate based on Id field
-		}
-		else
-			throw new PlantException("Plant not found");
-		
-		return plant;
+		 Plant obj = plantDao.findById(plant.getPlantId()).orElseThrow(() -> new PlantException("Plant not found "));
+	        
+		 plantDao.save(plant);
+	        return plant;
 		
 	}
 

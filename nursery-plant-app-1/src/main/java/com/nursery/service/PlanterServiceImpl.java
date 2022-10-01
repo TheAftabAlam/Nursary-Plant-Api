@@ -18,25 +18,26 @@ public class PlanterServiceImpl implements PlanterService{
 
 	@Override
 	public Planter addPlanter(Planter planter) throws PlanterException {
-		Planter obj = planterDao.findById(planter.getPlanterId()).orElseThrow(() -> new PlanterException("Planter Already exist"));
-        
-		 planterDao.save(planter);
-	        return planter;
+		Optional<Planter> opt= planterDao.findById(planter.getPlanterId());
+		
+		if(opt.isPresent()) {
+			throw new PlanterException("Planter Already exist");
+			
+			//here save method will perform as saveOrUpdate based on Id field
+		}
+		else
+			planterDao.save(planter);
+		
+		return planter;
 	}
 
 	@Override
 	public Planter updatePlanter(Planter planter) throws PlanterException {
-		Optional<Planter> opt= planterDao.findById(planter.getPlanterId());
 		
-		if(opt.isPresent()) {
-			
-			planterDao.save(planter);
-			//here save method will perform as saveOrUpdate based on Id field
-		}
-		else
-			throw new PlanterException("Planter not found");
-		
-		return planter;
+		Planter obj = planterDao.findById(planter.getPlanterId()).orElseThrow(() -> new PlanterException("Planter  not found"));
+        
+		 planterDao.save(planter);
+	        return planter;
 	}
 
 	@Override

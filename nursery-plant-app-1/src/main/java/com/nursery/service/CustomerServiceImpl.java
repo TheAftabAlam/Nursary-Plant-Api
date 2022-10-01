@@ -18,25 +18,27 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer addCustomer(Customer customer) throws CustomerException {
-		Customer obj = customerDao.findById(customer.getCustomerID()).orElseThrow(() -> new CustomerException("Customer Already exist"));
-        
-		customerDao.save(customer);
-	        return customer;
-	}
-
-	@Override
-	public Customer updateCustomer(Customer customer) throws CustomerException {
 		Optional<Customer> opt= customerDao.findById(customer.getCustomerID());
 		
 		if(opt.isPresent()) {
 			
-			customerDao.save(customer);
+			throw new CustomerException("Customer Already exist");
 			//here save method will perform as saveOrUpdate based on Id field
 		}
 		else
-			throw new CustomerException("Customer not found");
+			customerDao.save(customer);
+			
 		
 		return customer;
+	}
+
+	@Override
+	public Customer updateCustomer(Customer customer) throws CustomerException {
+		
+		Customer obj = customerDao.findById(customer.getCustomerID()).orElseThrow(() -> new CustomerException("Customer not found"));
+        
+		customerDao.save(customer);
+	        return customer;
 	}
 
 	@Override

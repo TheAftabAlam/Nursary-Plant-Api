@@ -55,20 +55,20 @@ public class PlanterControlHandler {
 	}
 	
 	
-	@GetMapping("/viewplanter")
+	@GetMapping("/viewplantersByShape")
 	public ResponseEntity<List<Planter>> GetPlanterByShape(@RequestParam("shape") String planterShape) throws PlanterException{
 		List<Planter> planter1= planterservice.viewPlanter(planterShape);
 		return new ResponseEntity<List<Planter>>(planter1,HttpStatus.OK);
 	}
 		
-	@GetMapping("/viewplanters")
+	@GetMapping("/viewAllplanters")
 	public ResponseEntity<List<Planter>> ShowPlanters() throws PlanterException{
 	List<Planter> planters=	planterservice.viewAllPlanters();
 		return new ResponseEntity<List<Planter>>(planters,HttpStatus.OK);
 	}
 	
 	
-	@GetMapping("/viewplanters/{mincost}/{maxcost}")
+	@GetMapping("/viewplantersByMinMax/{mincost}/{maxcost}")
 	public ResponseEntity<List<Planter>> ViewPlantersByMinMax(@PathVariable("min")double min,@PathVariable("max") double max) throws PlanterException{
 		List<Planter> planters=	planterservice.viewAllPlanters(min, max);
 		return new ResponseEntity<List<Planter>>(planters,HttpStatus.OK);
