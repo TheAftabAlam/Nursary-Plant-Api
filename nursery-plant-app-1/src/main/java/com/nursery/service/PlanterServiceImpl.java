@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nursery.exceptions.PlanterException;
+import com.nursery.login.repository.CurrentUserSessiondDao;
 import com.nursery.model.Planter;
 import com.nursery.repository.PlanterDao;
 
@@ -15,6 +16,9 @@ public class PlanterServiceImpl implements PlanterService{
 	
 	@Autowired
 	private PlanterDao planterDao;
+	
+	@Autowired
+	private CurrentUserSessiondDao cusd;
 
 	@Override
 	public Planter addPlanter(Planter planter) throws PlanterException {
@@ -26,9 +30,9 @@ public class PlanterServiceImpl implements PlanterService{
 			//here save method will perform as saveOrUpdate based on Id field
 		}
 		else
-			planterDao.save(planter);
+			return planterDao.save(planter);
 		
-		return planter;
+		
 	}
 
 	@Override
@@ -36,8 +40,8 @@ public class PlanterServiceImpl implements PlanterService{
 		
 		Planter obj = planterDao.findById(planter.getPlanterId()).orElseThrow(() -> new PlanterException("Planter  not found"));
         
-		 planterDao.save(planter);
-	        return planter;
+		return planterDao.save(planter);
+	        
 	}
 
 	@Override

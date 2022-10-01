@@ -15,6 +15,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,6 +51,7 @@ public class Customer {
 	private Set<Address> address=new HashSet<>();
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "bookingOrderId")
+	@JsonIgnore
 	private List<Orders> orderss=new ArrayList<>();
 	
 	

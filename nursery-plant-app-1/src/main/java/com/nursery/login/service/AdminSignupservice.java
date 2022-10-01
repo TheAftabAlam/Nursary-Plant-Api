@@ -5,7 +5,8 @@ import com.nursery.login.model.Admin;
 
 public interface AdminSignupservice {
 	
-	public Admin SignupAdmin(Admin admin);
+	public Admin signupAdmin(Admin admin);
 	
-	public Admin UpdateAdmin(Admin admin,String key) throws AdminException;
+	public Admin updateAdmin(Admin admin,String key) throws AdminException;
+	
 }

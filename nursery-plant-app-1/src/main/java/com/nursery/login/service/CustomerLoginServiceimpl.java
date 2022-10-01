@@ -1,6 +1,7 @@
 package com.nursery.login.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,13 @@ public class CustomerLoginServiceimpl implements CustomerLoginService{
 		if(!customer.getPassword().equals(al.getPassword())) {
 			throw new CustomerException("Incorrect Password");			
 		}
+		
+//		Provision such that one customer can login at a time
+		List<CurrentUserSession> session = cusd.findAll();
+		if(session.size()>0) {
+			return "Someone Already logged in";
+		}
+		
 		 Optional<CurrentUserSession> cu=cusd.findByuserId(al.getUserId());
 		if(cu.isPresent()) {
 			throw new CustomerException("User Alredy Loged in");	

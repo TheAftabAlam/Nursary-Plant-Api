@@ -18,7 +18,7 @@ public class AdminSignupserviceimpl implements AdminSignupservice{
 	@Autowired
 	private CurrentUserSessiondDao cusd;
 	@Override
-	public Admin SignupAdmin(Admin admin) {
+	public Admin signupAdmin(Admin admin) {
 		
 		Admin admin1=adao.save(admin);
 		
@@ -27,10 +27,10 @@ public class AdminSignupserviceimpl implements AdminSignupservice{
 	}
 
 	@Override
-	public Admin UpdateAdmin(Admin admin,String key) throws AdminException{
-	CurrentUserSession cu=	cusd.findByuuid(key).orElseThrow(()-> new AdminException("User Not Logged in"));
-
-	return adao.save(admin);
+	public Admin updateAdmin(Admin admin,String key) throws AdminException{
+		CurrentUserSession cu=	cusd.findByuuid(key).orElseThrow(()-> new AdminException("User Not Logged in"));
+	
+		return adao.save(admin);
 	
 	}
 

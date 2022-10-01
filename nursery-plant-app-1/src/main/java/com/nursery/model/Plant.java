@@ -29,7 +29,7 @@ public class Plant {
 	
 	@NotNull(message = "Height of the plant must be there")
 	@Min(value = 1, message = "Plant height should be greater than zero")
-	private Double plantHeight;
+	private Integer plantHeight;
 	
 	@NotEmpty(message = "Plant Spread must be there")
 	private String plantSpread;

@@ -27,7 +27,7 @@ public class Planter {
 	
 	@NotNull(message = "Height of the planter must be there")
 	@Min(value = 1, message = "Planter height should be greater than zero")
-	private Float planterHeight;
+	private Integer planterHeight;
 	
 	@NotNull(message = "Capacity of planter must be there")
 	@Min(value = 0, message = "Capacity must be greater than zero")

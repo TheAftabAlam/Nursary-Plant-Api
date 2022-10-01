@@ -26,9 +26,9 @@ public class PlantServiceImpl implements PlantService{
 			//here save method will perform as saveOrUpdate based on Id field
 		}
 		else
-			plantDao.save(plant);
+			return plantDao.save(plant);
 		
-		return plant;
+		
 		
 	}
 
@@ -36,8 +36,8 @@ public class PlantServiceImpl implements PlantService{
 	public Plant updatePlant(Plant plant)throws PlantException {
 		 Plant obj = plantDao.findById(plant.getPlantId()).orElseThrow(() -> new PlantException("Plant not found "));
 	        
-		 plantDao.save(plant);
-	        return plant;
+		 return plantDao.save(plant);
+	       
 		
 	}
 

@@ -26,10 +26,8 @@ public class CustomerServiceImpl implements CustomerService{
 			//here save method will perform as saveOrUpdate based on Id field
 		}
 		else
-			customerDao.save(customer);
-			
+			return customerDao.save(customer);
 		
-		return customer;
 	}
 
 	@Override
@@ -37,8 +35,8 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		Customer obj = customerDao.findById(customer.getCustomerID()).orElseThrow(() -> new CustomerException("Customer not found"));
         
-		customerDao.save(customer);
-	        return customer;
+		 return customerDao.save(customer);
+	      
 	}
 
 	@Override

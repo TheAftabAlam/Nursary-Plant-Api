@@ -27,10 +27,9 @@ public class SeedServiceImpl implements SeedService{
 			//here save method will perform as saveOrUpdate based on Id field
 		}
 		else
-			seedDao.save(seed);
+			return seedDao.save(seed);
 			
 		
-		return seed;
 	}
 
 	@Override
@@ -38,8 +37,8 @@ public class SeedServiceImpl implements SeedService{
 		
 		Seed obj = seedDao.findById(seed.getSeedId()).orElseThrow(() -> new SeedException("Seed not found"));
         
-		seedDao.save(seed);
-	        return seed;
+		return seedDao.save(seed);
+	      
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.nursery.login.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +54,17 @@ public class AdminLoginServiceimpl implements AdminLoginService{
 
 			return "Please Enter Correct Password";
 		}
+		
 	 Optional<CurrentUserSession> cu=cusd.findByuserId(alogin.getUserId());
 		if(cu.isPresent()) {	
 			return "User Alredy logged in";
 		}
 	 
+//		List<CurrentUserSession> session = cusd.findAll();
+//		if(session.size()>0) {
+//			return "Someone Already logged in";
+//		}
+		
 	 	RandomNumservice ran=new RandomNumservice();
 			String uuid=ran.RandomNumber();
 			

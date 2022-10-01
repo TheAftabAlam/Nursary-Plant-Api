@@ -55,7 +55,7 @@ public class Seed {
 	
 	@NotNull(message = "Seed cost should be there")
 	@Min(value = 1, message = "Seed cost must be greate than 0")
-	private Double seedCost;
+	private Integer seedCost;
 	
 	@NotNull(message = "Seed packet not to be empty")
 	@Min(value = 1, message = "Minimun 1 seed required in a packet")
