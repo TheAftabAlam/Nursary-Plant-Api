@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.nursery.exceptions.CustomerException;
 import com.nursery.model.Customer;
+import com.nursery.login.model.CurrentUserSession;
+import com.nursery.login.repository.CurrentUserSessiondDao;
 import com.nursery.login.repository.CustomerDao;
 
 @Service
@@ -15,6 +17,18 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	private CustomerDao customerDao;
+	
+//	@Autowired
+//	private CurrentUserSessiondDao cusd;
+//	
+//	 boolean isCustomerLogin() {
+//		List<CurrentUserSession> list = cusd.findAll();
+//		
+//		if(list.size()>0) {
+//			return true;
+//		}
+//		
+//	}
 
 	@Override
 	public Customer addCustomer(Customer customer) throws CustomerException {

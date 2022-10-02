@@ -50,7 +50,7 @@ public class Customer {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "addressID")
 	private Set<Address> address=new HashSet<>();
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "bookingOrderId")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
 	@JsonIgnore
 	private List<Orders> orderss=new ArrayList<>();
 	

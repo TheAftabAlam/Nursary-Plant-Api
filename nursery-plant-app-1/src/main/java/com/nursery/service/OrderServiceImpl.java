@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nursery.exceptions.CustomerException;
 import com.nursery.exceptions.OrderException;
+import com.nursery.login.model.CurrentUserSession;
+import com.nursery.login.repository.CurrentUserSessiondDao;
 import com.nursery.model.Orders;
 import com.nursery.repository.OrderDao;
 
@@ -17,8 +20,13 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	private OrderDao orderDao;
 
+	@Autowired
+	private CurrentUserSessiondDao cusd;
+	
 	@Override
-	public Orders addOrder(Orders order) {
+	public Orders addOrder(Orders order,String uuid) throws CustomerException {
+		CurrentUserSession cus = cusd.findByuuid(uuid).orElseThrow(() -> new CustomerException("Please login First..."));
+		
 		Orders newOrder= orderDao.save(order);
 		return newOrder;
 	}

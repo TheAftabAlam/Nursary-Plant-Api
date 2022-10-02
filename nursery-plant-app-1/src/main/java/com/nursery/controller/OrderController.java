@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nursery.exceptions.CustomerException;
 import com.nursery.exceptions.OrderException;
 import com.nursery.model.Orders;
 import com.nursery.service.OrderService;
@@ -26,9 +27,9 @@ public class OrderController {
 	private OrderService orderService;
 
 	// ADD ORDER
-	@PostMapping("/addOrder")
-	public ResponseEntity<Orders> addOrder(@Valid @RequestBody Orders order) {
-		Orders ord = orderService.addOrder(order);
+	@PostMapping("/addOrder/{uuid}")
+	public ResponseEntity<Orders> addOrder(@PathVariable("uuid") String uuid, @Valid @RequestBody Orders order) throws CustomerException {
+		Orders ord = orderService.addOrder(order, uuid);
 		
 		return new ResponseEntity<Orders>(ord,HttpStatus.CREATED);
 	}
