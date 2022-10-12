@@ -1,5 +1,5 @@
 
-# Nurser Plant Management
+# Nursery Plant Management
 Backend of online Management where customer can buy plants, seeds.
 
 
