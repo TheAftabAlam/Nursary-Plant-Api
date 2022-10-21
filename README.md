@@ -40,7 +40,6 @@ Service Layers, Data Access Layers to generate different end points. Features:
 - **Spring**
 - **Spring Boot**
 - **Spring data JPA**
-- **Spring security**
 - **Hibernate**
 - **MySQL**
 
