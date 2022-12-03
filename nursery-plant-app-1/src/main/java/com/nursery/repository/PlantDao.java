@@ -14,5 +14,5 @@ public interface PlantDao extends JpaRepository<Plant, Integer> {
 	
 	public List<Plant> findByTypeOfPlant(String typeOfPlant);
 	
-	
+	List<Plant> findBycommonName(String commonName);
 }

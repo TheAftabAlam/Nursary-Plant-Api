@@ -13,9 +13,6 @@ public interface CustomerService {
 	public Customer viewCustomer(Integer customerId)throws CustomerException;
 
 	public List<Customer> viewAllCustomers()throws CustomerException ;
+	 public Integer isCustomerPresent(Customer customer) throws Exception;
 	
-//	public validateCustomer(String userName, String password) ;
-
-	
-
 }

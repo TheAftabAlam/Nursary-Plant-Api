@@ -7,9 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -17,18 +15,13 @@ import lombok.NoArgsConstructor;
 public class CurrentUserSession {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	private Integer userId;
-	private LocalDateTime  now;
+	private LocalDateTime  localDateTime;
 	private String uuid;
 	
 
-	@Override
-	public String toString() {
-		return "CurrentUserSession [userId=" + userId + ", now=" + now + ", uuid=" + uuid + "]";
-	}
+	
 	
 	
 	

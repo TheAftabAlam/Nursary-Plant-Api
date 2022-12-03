@@ -7,7 +7,7 @@ import com.nursery.model.Seed;
 
 public interface SeedService {
 
-	public Seed addSeed(Seed seed)throws SeedException;
+	public Seed addSeed(Seed seed,Integer planterId)throws SeedException;
 	public Seed updateSeed(Seed seed)throws SeedException;
 	public Seed deleteSeed(Seed seed)throws SeedException;
 	public Seed viewSeed(Integer seedId)throws SeedException;

@@ -8,7 +8,8 @@ import com.nursery.login.model.CurrentUserSession;
 
 public interface CurrentUserSessiondDao extends JpaRepository<CurrentUserSession, Integer> {
 
-	public Optional<CurrentUserSession>findByuserId(Integer id);
+	
 	public Optional<CurrentUserSession>findByuuid(String uuid);
+	
 	
 }

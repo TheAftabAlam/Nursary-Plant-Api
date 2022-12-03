@@ -31,7 +31,7 @@ public class CustomerSignupServiceimpl implements CustomerSignupService{
 	@Override
 	public Customer UpdateCustomer(Customer customer,String key) throws CustomerException{
 	CurrentUserSession cu=	cusd.findByuuid(key).orElseThrow(()-> new CustomerException("User Not Logged in"));
-	if(customer.getCustomerID()==cu.getUserId()) {
+	if(customer.getCustomerID()==cu.getId()) {
 		return adao.save(customer);
 	}
 	else

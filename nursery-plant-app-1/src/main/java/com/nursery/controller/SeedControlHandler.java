@@ -1,19 +1,24 @@
 package com.nursery.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.websocket.server.PathParam;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nursery.exceptions.SeedException;
@@ -26,15 +31,15 @@ public class SeedControlHandler {
 	@Autowired
 	private SeedService Seedservice;
 
-	@PostMapping("/admin/addseed")
-	public  ResponseEntity<Seed> addSeed(@RequestBody Seed Seed) throws SeedException{ 
-		Seed seed1=	Seedservice.addSeed(Seed);
+	@PostMapping("/admin/addseed/planterId/{planterID}")
+	public  ResponseEntity<Seed> addSeed(@Valid @RequestBody Seed Seed,@PathVariable("planterID") Integer planterId) throws SeedException{ 
+		Seed seed1=	Seedservice.addSeed(Seed,planterId);
 
 	return new ResponseEntity<Seed>(seed1,HttpStatus.OK);
 	}
 	
 	@PutMapping("admin/updateseed")
-	public ResponseEntity<Seed> UpdateSeed(@RequestBody Seed seed) throws SeedException{
+	public ResponseEntity<Seed> UpdateSeed(@Valid @RequestBody Seed seed) throws SeedException{
 		Seed seed1=	Seedservice.updateSeed(seed);
 
 		return new ResponseEntity<Seed>(seed1,HttpStatus.OK);
@@ -42,7 +47,7 @@ public class SeedControlHandler {
 	
 	
 	@DeleteMapping("admin/deleteseed")//for deleteing seed we don't need seed we just need planter id
-	public ResponseEntity<Seed> DeleteSeed(@RequestBody Seed seed) throws SeedException{
+	public ResponseEntity<Seed> DeleteSeed(@Valid @RequestBody Seed seed) throws SeedException{
 		Seed seed1=Seedservice.deleteSeed(seed);
 		return new ResponseEntity<Seed>(seed1,HttpStatus.OK);
 	}
@@ -73,5 +78,16 @@ public class SeedControlHandler {
 	public ResponseEntity<List<Seed>> ViewSeedsByType(@PathVariable("type") String type) throws SeedException{
 		List<Seed> seed=	Seedservice.viewSeed(type);
 		return new ResponseEntity<List<Seed>>(seed,HttpStatus.OK);
+	}
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+	    Map<String, String> errors = new HashMap<>();
+	    ex.getBindingResult().getAllErrors().forEach((error) -> {
+	        String fieldName = ((FieldError) error).getField();
+	        String errorMessage = error.getDefaultMessage();
+	        errors.put(fieldName, errorMessage);
+	    });
+	    return errors;
 	}
 }

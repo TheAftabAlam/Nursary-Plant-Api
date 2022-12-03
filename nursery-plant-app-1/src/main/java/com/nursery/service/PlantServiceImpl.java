@@ -8,16 +8,23 @@ import org.springframework.stereotype.Service;
 
 import com.nursery.exceptions.PlantException;
 import com.nursery.model.Plant;
+import com.nursery.model.Planter;
 import com.nursery.repository.PlantDao;
+import com.nursery.repository.PlanterDao;
 
 @Service
 public class PlantServiceImpl implements PlantService{
 	
 	@Autowired
 	private PlantDao plantDao;
+	
+	@Autowired
+	private PlanterDao planterDao;
+	
 
 	@Override
-	public Plant addPlant(Plant plant) throws PlantException {
+	public Plant addPlant(Plant plant,Integer planterID) throws PlantException {
+		
 		Optional<Plant> opt= plantDao.findById(plant.getPlantId());
 		
 		if(opt.isPresent()) {
@@ -25,8 +32,22 @@ public class PlantServiceImpl implements PlantService{
 			
 			//here save method will perform as saveOrUpdate based on Id field
 		}
-		else
-			return plantDao.save(plant);
+		
+		 Optional<Planter> optional= planterDao.findById(planterID);
+		 if(optional.isPresent())
+		 {
+			 Planter planter=optional.get();
+			 planter.getPlants().add(plant);
+			 plant.setPlanter(planter);
+			 return plantDao.save(plant);
+		 }
+		 else {
+			throw new PlantException("Planter not found");
+		}
+		
+		
+		
+			
 		
 		
 		
@@ -88,6 +109,25 @@ public class PlantServiceImpl implements PlantService{
 			return plants;
 		else
 			throw new PlantException("Plant does not exist with Type "+typeOfPlant);
+	}
+
+	@Override
+	public Planter getPlanterByPlantId(Integer pid) throws PlantException {
+			Optional<Plant> optional= plantDao.findById(pid);
+			if(optional.isPresent())
+			{
+				Planter planter= optional.get().getPlanter();
+				if(planter==null)
+				{
+					throw new PlantException("Planter not found");
+				}else {
+					return planter;
+				}
+			}
+			else {
+				throw new PlantException("Plant not found");
+			}
+		
 	}
 
 }

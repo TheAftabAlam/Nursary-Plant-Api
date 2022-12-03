@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nursery.exceptions.SeedException;
+import com.nursery.model.Planter;
 import com.nursery.model.Seed;
+import com.nursery.repository.PlanterDao;
 import com.nursery.repository.SeedDao;
 
 @Service
@@ -16,9 +18,13 @@ public class SeedServiceImpl implements SeedService{
 	@Autowired
 	private SeedDao seedDao;
 
+	@Autowired
+	private PlanterDao planterDao;
+	
 	
 	@Override
-	public Seed addSeed(Seed seed) throws SeedException {
+	public Seed addSeed(Seed seed,Integer PlanterId) throws SeedException {
+		
 		Optional<Seed> opt= seedDao.findById(seed.getSeedId());
 		
 		if(opt.isPresent()) {
@@ -26,9 +32,19 @@ public class SeedServiceImpl implements SeedService{
 		
 			//here save method will perform as saveOrUpdate based on Id field
 		}
-		else
-			return seedDao.save(seed);
+		
+		Optional<Planter> optional= planterDao.findById(PlanterId);
 			
+		if(optional.isPresent())
+		{
+			Planter planter=optional.get();
+			planter.getSeeds().add(seed);
+			seed.setPlanter(planter);
+			return seedDao.save(seed);
+		}
+		else {
+			throw new SeedException("Planter not found");
+		}
 		
 	}
 

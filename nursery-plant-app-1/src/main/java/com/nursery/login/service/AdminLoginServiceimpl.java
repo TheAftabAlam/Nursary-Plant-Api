@@ -1,81 +1,111 @@
 package com.nursery.login.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.nursery.exceptions.AdminException;
 import com.nursery.login.model.Admin;
-import com.nursery.login.model.AdminLogin;
+import com.nursery.login.model.AdminLoginDTO;
 import com.nursery.login.model.CurrentUserSession;
 import com.nursery.login.repository.AdminDao;
-import com.nursery.login.repository.AdminLoginDao;
 import com.nursery.login.repository.CurrentUserSessiondDao;
+
+import net.bytebuddy.utility.RandomString;
+
+
 
 @Service
 public class AdminLoginServiceimpl implements AdminLoginService{
 	
 	@Autowired
-	private AdminDao ad;
+	private AdminDao adminDao;
+	
 	
 	@Autowired
-	private AdminLoginDao ald;
-	
-	@Autowired
-	private CurrentUserSessiondDao cusd;
+	private CurrentUserSessiondDao sessiondDao;
 
 	
+
+	
+
+
 
 	@Override
-	public String Adminlogout(String key) throws AdminException  {
+	public String Adminlogin(AdminLoginDTO dto) throws AdminException {
 		
-	CurrentUserSession cus=	cusd.findByuuid(key).orElseThrow(()-> new AdminException("Enter correct Key"));
+		Admin existingCustomer= adminDao.findByadminName(dto.getAdminName());
+		
+		if(existingCustomer == null) {
+			
+			throw new AdminException("Please Enter a valid mobile number");
+			
+			 
+		}
+		
+		
+		
+		
+		Optional<CurrentUserSession> validCustomerSessionOpt =  sessiondDao.findById(existingCustomer.getUserId());
+		
+		
+		
+		
+		
+		if(validCustomerSessionOpt.isPresent()) {
+			
+			throw new AdminException("User already Logged In with this number");
+			
+		}
+		
+		if(existingCustomer.getPassword().equals(dto.getPassword())) {
+			
+			String key= RandomString.make(6);
+			
+			
+			
+			CurrentUserSession currentUserSession = new CurrentUserSession();
+			currentUserSession.setId(existingCustomer.getUserId());
+			currentUserSession.setLocalDateTime(LocalDateTime.now());
+			currentUserSession.setUuid(key);
+			
+			sessiondDao.save(currentUserSession);
 
-		ald.deleteById(cus.getUserId());
-		cusd.delete(cus);	
-		return "Logout Successful";
+			return currentUserSession.toString();
+		}
+		else
+			throw new AdminException("Please Enter a valid password");
+		
+		
 	}
 
 
 
+
+
+
+
 	@Override
-	public String Adminlogin(AdminLogin alogin) throws AdminException {
-		
-		Admin admin= ad.findById(alogin.getUserId()).orElseThrow(()->new AdminException("UseerId not find"));
-			
-		if(!admin.getAdminName().equals(alogin.getAdminName())) {
+	public String Adminlogout(String key) throws AdminException {
 
-			return "Please Enter correct username";
-		}
-		if(!admin.getPassword().equals(alogin.getPassword())) {
-
-			return "Please Enter Correct Password";
+		Optional<CurrentUserSession> validCustomerSession = sessiondDao.findByuuid(key);
+		
+		
+		if(validCustomerSession.get() == null) {
+			throw new AdminException("User Not Logged In with this number");
+			
 		}
 		
-	 Optional<CurrentUserSession> cu=cusd.findByuserId(alogin.getUserId());
-		if(cu.isPresent()) {	
-			return "User Alredy logged in";
-		}
-	 
-//		List<CurrentUserSession> session = cusd.findAll();
-//		if(session.size()>0) {
-//			return "Someone Already logged in";
-//		}
 		
-	 	RandomNumservice ran=new RandomNumservice();
-			String uuid=ran.RandomNumber();
-			
-			CurrentUserSession cus= new CurrentUserSession();
-			cus.setUserId(alogin.getUserId());
-			cus.setNow(LocalDateTime.now());
-			cus.setUuid(uuid);
-			
-			ald.save(alogin);
-			CurrentUserSession cs=	cusd.save(cus);
-			return cs.toString();
+		sessiondDao.delete(validCustomerSession.get());
+		
+		
+		return "Logged Out !";
+		
+		
 	}
 
 	

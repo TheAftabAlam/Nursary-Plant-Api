@@ -9,6 +9,6 @@ import com.nursery.login.model.Admin;
 @Repository
 public interface AdminDao extends JpaRepository<Admin, Integer>{
 
-	
+	public Admin findByadminName(String adminName);
 
 }

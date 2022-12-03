@@ -2,6 +2,7 @@ package com.nursery.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,14 +12,13 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Planter {
 
 	@Id
@@ -52,11 +52,14 @@ public class Planter {
 	private Integer planterCost;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plantId")
+	@JsonIgnore
 	private List<Plant> plants = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "seedId")
+	@JsonIgnore
 	private List<Seed> seeds = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "bookingOrderId")
+	@JsonIgnore
 	private List<Orders> orders=new ArrayList<>();
 }

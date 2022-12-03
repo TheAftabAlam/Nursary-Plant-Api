@@ -17,26 +17,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nursery.exceptions.CustomerException;
-import com.nursery.login.model.CustomerLoginDTO;
-import com.nursery.login.service.CustomerLoginService;
+import com.nursery.exceptions.AdminException;
+import com.nursery.login.model.AdminLoginDTO;
+import com.nursery.login.service.AdminLoginService;
 
 @RestController
-public class CustomerrLoginControlHandler {
+public class AdminLoginControlHandler {
 	@Autowired
-	private CustomerLoginService userLoginservice;
+	private AdminLoginService adminLoginservice;
 
-	@PostMapping("/user/login")
-	public String userLoginHandler(@Valid @RequestBody CustomerLoginDTO al) throws CustomerException {
-		return userLoginservice.Customerlogin(al);
-		 
-	}
-	@DeleteMapping("/user/logout")
-	public String userLogoutHandler(@RequestParam String key )throws  CustomerException {
-	return userLoginservice.Customerlogout(key);
+	@PostMapping("/admin/login")
+	public String AdminLoginHandler(@Valid @RequestBody AdminLoginDTO al) throws AdminException {
+		return adminLoginservice.Adminlogin(al);
 		
 	}
-	
+	@DeleteMapping("/admin/logout")
+	public String AdminLogoutHandler(@RequestParam String key )throws AdminException {
+	return 	adminLoginservice.Adminlogout(key);
+		
+	}
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -48,4 +47,5 @@ public class CustomerrLoginControlHandler {
 	    });
 	    return errors;
 	}
+	
 }

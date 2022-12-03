@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nursery.exceptions.CustomerException;
-import com.nursery.model.Customer;
-import com.nursery.login.model.CurrentUserSession;
-import com.nursery.login.repository.CurrentUserSessiondDao;
 import com.nursery.login.repository.CustomerDao;
+import com.nursery.model.Customer;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -47,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer updateCustomer(Customer customer) throws CustomerException {
 		
-		Customer obj = customerDao.findById(customer.getCustomerID()).orElseThrow(() -> new CustomerException("Customer not found"));
+		customerDao.findById(customer.getCustomerID()).orElseThrow(() -> new CustomerException("Customer not found"));
         
 		 return customerDao.save(customer);
 	      
@@ -78,5 +76,14 @@ public class CustomerServiceImpl implements CustomerService{
 		else
 			throw new CustomerException("No Customer found..");
 	}
+	
+	@Override
+	public Integer isCustomerPresent(Customer customer) throws Exception {
+	        Customer customer1 = customerDao.getCustomerBycustomerEmailAndcustomerName(customer.getCustomerEmail(),customer.getCustomerName()) ;
+	        if(customer1==null)
+	        	throw new Exception("Customer not found");
+	       
+	        return customer1.getCustomerID();
+	    }
 
 }

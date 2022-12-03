@@ -1,7 +1,6 @@
 package com.nursery.login.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,63 +8,82 @@ import org.springframework.stereotype.Service;
 
 import com.nursery.exceptions.CustomerException;
 import com.nursery.login.model.CurrentUserSession;
-import com.nursery.login.model.CustomerLogin;
+import com.nursery.login.model.CustomerLoginDTO;
 import com.nursery.login.repository.CurrentUserSessiondDao;
 import com.nursery.login.repository.CustomerDao;
-import com.nursery.login.repository.CustomerLoginDao;
 import com.nursery.model.Customer;
+
+import net.bytebuddy.utility.RandomString;
+
 
 @Service
 public class CustomerLoginServiceimpl implements CustomerLoginService{
-	@Autowired
-	private CustomerLoginDao cld;
 	
 	@Autowired
-	private CustomerDao cd;
-
+	private CustomerDao customerDao;
+	
 	@Autowired
-	private CurrentUserSessiondDao cusd; 
+	private CurrentUserSessiondDao sessiondDao;
+	
+
 	@Override
-	public String Customerlogin(CustomerLogin al) throws CustomerException {
-		Customer customer= cd.findById(al.getUserId()).orElseThrow(()->new CustomerException("Customer not found"));
-		if(!customer.getCustomerName().equals(al.getCustomerName())) {
-			 throw new CustomerException("Incorrect username");
+	public String Customerlogin(CustomerLoginDTO dto) throws CustomerException {
+		Customer existingCustomer= customerDao.findBycustomerName(dto.getCustomerName());
+		
+		if(existingCustomer == null) {
+			
+			throw new CustomerException("Please Enter a valid mobile number");
+			
+			 
 		}
-		if(!customer.getPassword().equals(al.getPassword())) {
-			throw new CustomerException("Incorrect Password");			
+		Optional<CurrentUserSession> validCustomerSessionOpt =  sessiondDao.findById(existingCustomer.getCustomerID());
+		
+		
+		
+		
+		
+		if(validCustomerSessionOpt.isPresent()) {
+			
+			throw new CustomerException("User already Logged In with this number");
+			
 		}
 		
-//		Provision such that one customer can login at a time
-		List<CurrentUserSession> session = cusd.findAll();
-		if(session.size()>0) {
-			return "Someone Already logged in";
+		if(existingCustomer.getPassword().equals(dto.getPassword())) {
+			
+			String key= RandomString.make(6);
+			
+			
+			
+			CurrentUserSession currentUserSession = new CurrentUserSession();
+			currentUserSession.setId(existingCustomer.getCustomerID());
+			currentUserSession.setLocalDateTime(LocalDateTime.now());
+			currentUserSession.setUuid(key);
+			
+			sessiondDao.save(currentUserSession);
+
+			return currentUserSession.toString();
 		}
+		else
+			throw new CustomerException("Please Enter a valid password");
 		
-		 Optional<CurrentUserSession> cu=cusd.findByuserId(al.getUserId());
-		if(cu.isPresent()) {
-			throw new CustomerException("User Alredy Loged in");	
-		}
-		CurrentUserSession cus= new CurrentUserSession();
-		RandomNumservice rns=new RandomNumservice();
-		cus.setUserId(al.getUserId());
-		cus.setNow(LocalDateTime.now());
-		cus.setUuid(rns.RandomNumber());
-		
-		cld.save(al);
-	CurrentUserSession current=	cusd.save(cus);
-		
-		return current.toString();
 	}
 
 	@Override
 	public String Customerlogout(String key) throws CustomerException {
-		CurrentUserSession cus=cusd.findByuuid(key).orElseThrow(()->new CustomerException("Please Enter Right key"));
-		CustomerLogin cu=cld.findById(cus.getUserId()).orElseThrow(()->new CustomerException("Customer Not Availble"));
-		cld.delete(cu);
-		cusd.delete(cus);
-				
-		return "LogOut successful";
+Optional<CurrentUserSession> validCustomerSession = sessiondDao.findByuuid(key);
+		
+		
+		if(validCustomerSession.get() == null) {
+			throw new CustomerException("User Not Logged In with this number");
+			
+		}
+		
+		
+		sessiondDao.delete(validCustomerSession.get());
+		
+		
+		return "Logged Out !";
+		
 	}
 
-	
 }

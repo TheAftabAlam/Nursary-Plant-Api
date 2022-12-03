@@ -8,11 +8,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
 @Data
 public class Admin {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId;
@@ -28,4 +31,18 @@ public class Admin {
 	@NotNull
 	@Email
 	private String email;
+	
+	private String role="ADMIN";
+
+//	@JsonIgnore
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
+//	
+	
+	
 }
